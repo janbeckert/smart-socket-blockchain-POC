@@ -85,7 +85,7 @@ parser.add_argument('--api-base', dest='APIbase', default='http://localhost:3000
 
 args = parser.parse_args()
 
-if(args.PLUG_IP is None):
+if(not hasattr(args, 'PLUG_IP') or args.PLUG_IP is None):
     print("No device ip given, discover new sockets..")
     plug = None
     for dev in Discover.discover().values():
@@ -103,13 +103,13 @@ n = 0
 while True:
     n = n +1
     time.sleep(5)
-    reportConsumption(plug, args.PLUG_ID)
+    reportConsumption(plug, args.PLUG_ID, args.APIbase)
     if(isCheap(n)):
-        publishBonus(4, args.SUPPLIER_ID)
+        publishBonus(4, args.SUPPLIER_ID, args.APIbase)
         plug.turn_on()
     else:
         plug.turn_off()
     if(n % 8 == 6):
-        updateBalance(args.PLUG_ID)
+        updateBalance(args.PLUG_ID, args.APIbase)
 
 

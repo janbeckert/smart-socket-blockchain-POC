@@ -1,0 +1,44 @@
+
+/**
+ * Smart socket business network definition.
+ */
+namespace org.example.basic
+
+asset Bonus identified by bonusId {
+  o String bonusId
+  o String euroCent
+  --> EnergySupplier generate
+  o String position
+}
+
+asset EnergyAmount identified by assetId {
+  o String assetId
+  o String value
+  --> SmartPlug consumer
+  o String position
+}
+
+participant SmartPlug identified by plugId {
+  o String plugId
+  o String mac
+  o String currentBalance
+}
+
+participant EnergySupplier identified by supplierId {
+  o String supplierId
+  o String name
+}
+
+transaction ReportConsumption {
+  --> SmartPlug plug
+  o String amount
+}
+
+transaction UpdateBalance {
+  --> SmartPlug plug
+}
+
+transaction CreateBonus {
+ --> EnergySupplier generate
+ o String euroCent
+}
